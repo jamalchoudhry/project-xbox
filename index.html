@@ -1,31 +1,67 @@
 <!doctype html>
-<html>
+<html ng-app="MallmartCheckOff">
 <head>
-    <title>Lunch Checker</title>
-    <link rel="stylesheet" href="bootstrap.min.css"/>
-    <style>
-    .message { font-size: 1.3em; font-weight: bold; }
-    </style>
-    <script src="angular.min.js"></script>
+    <title>Mallmart Store</title>
+    <script src="../angular.min.js"></script>
     <script src="app.js"></script>
     <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="../bootstrap.min.css">
+    <style>
+        .emptyMessage {
+            font-weight: bold;
+            color: red;
+            font-size: 1.2em;
+        }
+        li {
+            margin-bottom: 7px;
+            font-size: 1.2em;
+        }
+        li > button {
+            margin-left: 6px;
+        }
+        button > span {
+            color: green;
+        }
+    </style>
 </head>
-    <body ng-app="LunchChecker">
-        <div class="container" ng-controller="LunchCheckController">
-            <h1>Lunch Checker</h1>
-            <h2>What did you eat for lunch?</h2>
+<body>
+<div class="container">
+    <h1>Mallmart Store</h1>
 
-            <div class="form-group">
-                <textarea id="lunch-menu" rows="5" type="text"
-                       placeholder="use comma separated list of food items"
-                       class="form-control" ng-model="list"></textarea>
-            </div>
-            <div class="form-group">
-                <button class="btn btn-default" ng-click="calcMenu()">Check If Too Much</button>
-            </div>
-            <div class="form-group">
-                {{message}}
+    <div class="row">
+
+        <!-- To Buy List -->
+        <div class="col-md-12">
+            <h2>Add items to Shopping List</h2>
+            <div ng-controller="AddController as itemAdder">
+                <input class="form-group" type="text" ng-model="itemAdder.itemName" placeholder="item name" required>
+                <input class="form-group" type="text" ng-model="itemAdder.itemQuantity" placeholder="quantity" required>
+                <button type="button" class="btn btn-default" ng-click="itemAdder.addItem()">Add item to shopping list</button>
             </div>
         </div>
-    </body>
+
+        <div class="col-md-12" ng-controller="ShowController as toBuy">
+            <h2>List:</h2>
+            <ul>
+                <li ng-repeat="item in toBuy.items">Buy {{item.quantity}} {{item.name}}
+                    <button class="btn btn-default" ng-click="toBuy.buyItem($index)">
+                        <span class="glyphicon glyphicon-ok"></span> Bought
+                    </button>
+                </li>
+            </ul>
+            <div class="emptyMessage" ng-show="toBuy.items.length === 0">Everything is bought!</div>
+        </div>
+
+        <!-- Already Bought List -->
+        <div class="col-md-12" ng-controller="AlreadyBoughtController as bought">
+            <h2>Already Bought:</h2>
+            <ul>
+                <li ng-repeat="item in bought.items">Bought {{item.quantity}} {{item.name}}</li>
+            </ul>
+            <div class="emptyMessage" ng-show="bought.items.length === 0">Nothing bought yet.</div>
+        </div>
+    </div>
+</div>
+
+</body>
 </html>
