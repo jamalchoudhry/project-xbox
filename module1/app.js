@@ -1,32 +1,59 @@
 (function () {
     'use strict';
 
-    angular.module('LunchChecker', [])
-        .controller('LunchCheckController', LunchCheckController);
-        // LunchCheckController.$inject=[$scope];
-        function LunchCheckController($scope){
-            $scope.message = "";
-            $scope.list="";
-            $scope.calcMenu = function (){
+    angular.module('ShoppingList', [])
+        .controller('ToBuyShoppingController', ToBuyShoppingController)
+        .controller('AlreadyBoughtShoppingController', AlreadyBoughtShoppingController)
+        .service('ShoppingListService', ShoppingListService);
 
-                var list1 = $scope.list;
-                if (list1 == "") {
-                    $scope.message = "Please enter data first";
-                } else {
-                    var length1 = calcLength(list1);
-                    if (length1 <=3) {
-                        $scope.message = "Enjoy!";
-                    } else {
-                        $scope.message = "Too much!";
-                    }
-                }
-            }
+    function ShoppingListService() {
+        var service = this;
 
+        service.itemsList = [
+            {
+                quantity: 12,
+                name: 'Cupcakes'
+            }, {
+                quantity: 16,
+                name: 'Cookies'
+            }, {
+                quantity: 22,
+                name: 'Pastries'
+            }, {
+                quantity: 50,
+                name: 'Chocolate Bars'
+            }, {
+                quantity: 100,
+                name: 'Lolipops'
+            }];
+
+        service.boughtItems = [];
+
+        service.markItem = function (itemIndex) {
+            var item = service.itemsList[itemIndex];
+            service.itemsList.splice(itemIndex, 1);
+            service.boughtItems.push(item);
         }
+    }
 
-        function calcLength(list1){
-            var array = list1.split(",");
-            console.log(array.length);
-            return array.length;
+    ToBuyShoppingController.$inject = ['ShoppingListService'];
+
+    function ToBuyShoppingController(ShoppingListService) {
+        var toBuyCtrl = this;
+
+        toBuyCtrl.itemsList = ShoppingListService.itemsList;
+        // console.log(toBuyCtrl.itemsList);
+
+        toBuyCtrl.markItem = function (itemIndex) {
+            ShoppingListService.markItem(itemIndex);
         }
+    }
+
+    AlreadyBoughtShoppingController.$inject = ['ShoppingListService'];
+
+    function AlreadyBoughtShoppingController(ShoppingListService) {
+        var alreadyBoughtCtrl = this;
+
+        alreadyBoughtCtrl.boughtItems = ShoppingListService.boughtItems;
+    }
 })();
