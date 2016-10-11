@@ -1,84 +1,70 @@
-(function(){
+(function () {
     'use strict';
-    angular.module('MallmartCheckOff', [])
 
-        .service('ToBuyService', BaseListService)
-        .service('AlreadyBoughtService', BaseListService)
-        .controller('AddController', AddController)
-        .controller('ShowController', ShowController)
-        .controller('AlreadyBoughtController', AlreadyBoughtController);
+    angular.module('ShoppingListCheckOff', [])
+        .controller('ToBuyShoppingController', ToBuyShoppingController)
+        .controller('AlreadyBoughtShoppingController', AlreadyBoughtShoppingController)
+        .service('ShoppingListCheckOffService', ShoppingListCheckOffService);
 
-    AddController.$inject = ['ToBuyService'];
-    function AddController(ToBuyService) {
-        var controller = this;
-        controller.itemName = ""
-        controller.itemQuantity = ""
-        controller.addItem = function() {
-            if (controller.itemName!="") {
-                ToBuyService.addItem(controller.itemName, controller.itemQuantity);
-                console.log(controller.itemName);
-            } else {
-                console.log("itemNmae is empty");
-            }
+    ToBuyShoppingController.$inject = ['ShoppingListCheckOffService'];
+    function ToBuyShoppingController(ShoppingListCheckOffService) {
+        var buyList = this;
+
+        buyList.items = ShoppingListCheckOffService.getItemsToBuy();
+
+        buyList.removeItem = function (itemIndex) {
+            ShoppingListCheckOffService.buyItem(itemIndex);
         };
-    };
+    }
 
-    ShowController.$inject = ['ToBuyService', 'AlreadyBoughtService'];
-    function ShowController(ToBuyService, AlreadyBoughtService) {
-        var controller = this;
+    AlreadyBoughtShoppingController.$inject = ['ShoppingListCheckOffService'];
+    function AlreadyBoughtShoppingController(ShoppingListCheckOffService) {
+        var boughtList = this;
 
-        controller.items = ToBuyService.getItems();
+        boughtList.items = ShoppingListCheckOffService.getItemsBought();
+    }
 
-        controller.buyItem = function(index) {
-            var item = ToBuyService.getItem(index);
-            AlreadyBoughtService.addWholeItem(item);
-
-            ToBuyService.removeItem(index);
-        };
-
-        controller.isEmpty = function() {
-            return ToBuyService.getItems().length === 0;
-        };
-    };
-
-    AlreadyBoughtController.$inject = ['$scope', 'AlreadyBoughtService'];
-    function AlreadyBoughtController($scope, AlreadyBoughtService) {
-        var controller = this;
-
-        controller.items = AlreadyBoughtService.getItems();
-    };
-
-    function BaseListService() {
+    function ShoppingListCheckOffService() {
         var service = this;
-        var itemList = [];
 
-        service.addWholeItem = function(item) {
-            itemList.push(item);
+        // List of shopping items
+        var itemsToBuy = [
+            {
+                name: "Milk",
+                quantity: "2"
+            },
+            {
+                name: "Donuts",
+                quantity: "5"
+            },
+            {
+                name: "Cookies",
+                quantity: "10"
+            },
+            {
+                name: "Chocolate",
+                quantity: "5"
+            },
+            {
+                name: "Bananas",
+                quantity: "12"
+            }
+        ];
+
+        var itemsBought = [];
+
+        service.buyItem = function (itemIndex) {
+            itemsBought.push(itemsToBuy[itemIndex]);
+            itemsToBuy.splice(itemIndex, 1);
         };
 
-        service.addItem = function(name, quantity) {
-            var item = {
-                name : name,
-                quantity : quantity
-            };
-            itemList.push(item);
+        service.getItemsToBuy = function () {
+            return itemsToBuy;
         };
 
-        service.removeItem = function(index) {
-            itemList.splice(index, 1);
+        service.getItemsBought = function () {
+            return itemsBought;
         };
-
-        service.getItems = function() {
-            return itemList;
-        };
-
-        service.getItem = function(index) {
-            return itemList[index];
-        };
-
-        service.setItems = function(items) {
-            service.itemList = items;
-        };
-    };
+    }
 
 })();
