@@ -6,7 +6,6 @@
         .service('MenuSearchService', MenuSearchService)
         .directive('foundItems', FoundItemsDirective)
         .constant('ApiBasePath', "https://davids-restaurant.herokuapp.com");
-//.constant('ApiBasePath', "http://localhost:8080/coursera/single-page-apps-angularjs/assignments/coursera-angularjs-module3");
 
 
     function FoundItemsDirective() {
