@@ -1,0 +1,41 @@
+<!doctype html>
+<html ng-app="MenuApp">
+<head>
+    <title>Module 4 Coding Assignment</title>
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    <link rel="stylesheet" href="styles/bootstrap.min.css">
+    <script   src="js/jquery.min.js"
+              integrity="sha256-hVVnYaiADRTO2PzUGmuLJr8BLUSjGIZsDYGmIJLv2b8="
+              crossorigin="anonymous">
+    </script>
+
+
+</head>
+
+    <body>
+        <nav class="navbar navbar-inverse">
+            <div class="container">
+                <div class="navbar-header">
+                    <a class="navbar-brand" ui-sref="home">Restaurant</a>
+                </div>
+            </div>
+        </nav>
+
+        <div class="container">
+            <ui-view></ui-view>
+            <footer class="footer">
+                <h4>Module 4 Coding Assignment</h4>
+            </footer>
+
+        </div>
+
+        <script src="js/angular.min.js"></script>
+        <script src="js/ui-router.js"></script>
+        <script src="js/menuapp.module.js"></script>
+        <script src="js/categories.component.js"></script>
+        <script src="js/items.component.js"></script>
+        <script src="js/data.module.js"></script>
+        <script src="js/menudata.service.js"></script>
+        <script src="js/routes.js"></script>
+    </body>
+</html>

@@ -1,0 +1,15 @@
+<ol class="breadcrumb">
+    <li><a href="#">Home</a></li>
+    <li class="active">Categories list</a></li>
+</ol>
+<div class="panel panel-default">
+    <div class="panel-heading">Categories list</div>
+    <div class="panel-body">
+        <div class="col-xs-4" ng-repeat="category in $ctrl.categories">
+            {{category.name}} (
+            <a ui-sref="items({categoryId: category.short_name})">
+                {{category.short_name}} )
+            </a>
+        </div>
+    </div>
+</div>

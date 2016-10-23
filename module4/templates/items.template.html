@@ -1,0 +1,23 @@
+<div class="row">
+    <ol class="breadcrumb">
+        <li><a href="#">Home</a></li>
+        <li><a href="#/categories">Categories list</a></li>
+        <li class="active">Category items</li>
+    </ol>
+    <div class="col-xs-12">
+        <table class="table table-striped">
+            <tr class="info">
+                <th>ID</th>
+                <th>Short Name</th>
+                <th>Name</th>
+                <th>Description</th>
+            </tr>
+            <tr ng-repeat="item in $ctrl.items">
+                <td>{{item.id}}</td>
+                <td>{{item.short_name}}</td>
+                <td>{{item.name}}</td>
+                <td>{{item.description}}</td>
+            </tr>
+        </table>
+    </div>
+</div>
