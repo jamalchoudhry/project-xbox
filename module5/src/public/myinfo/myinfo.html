@@ -1,0 +1,31 @@
+<div class="container">
+  <div ng-if="!myInfoCtrl.myinfo.firstname" class="alert alert-danger text-center">
+    Not Signed Up Yet. <a ui-sref="public.signup" class="alert-link">Sign up Now!</a>
+  </div>
+  <div ng-if="myInfoCtrl.myinfo.firstname">
+    <div class="page-header">
+      <h1>User information</h1>
+    </div>
+    <p>First name:    {{myInfoCtrl.myinfo.firstname}}</p>
+    <p>Last  name:    {{myInfoCtrl.myinfo.lastname}}</p>
+    <p>Email Address: {{myInfoCtrl.myinfo.emailaddress}}</p>
+    <p>Phone Number:  {{myInfoCtrl.myinfo.phone}}</p>
+
+    <h2>Favorite dish</h2>
+    <div class="media">
+      <div class="media-left">
+        <img class="media-object" ng-src="{{myInfoCtrl.apipath}}/images/{{myInfoCtrl.myinfo.selectedMenu.short_name}}.jpg"
+             alt="{{myInfoCtrl.myinfo.selectedMenu.short_name">
+      </div>
+      <div class="media-body">
+        <h4 class="media-heading">{{myInfoCtrl.myinfo.selectedMenu.short_name}} - {{myInfoCtrl.myinfo.selectedMenu.name}}</h4>
+        {{myInfoCtrl.myinfo.selectedMenu.description}}
+      </div>
+    </div>
+
+
+  </div>
+
+<ui-view>
+</ui-view>
+</div>
